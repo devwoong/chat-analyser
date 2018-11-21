@@ -1,8 +1,8 @@
 package main
 
 import (
+	"chat-analyser/res/top"
 	"net/http"
-	"search-analysis/res/top"
 
 	"github.com/gorilla/mux"
 )

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"search-analysis/elastic-bulk/parser"
+	"chat-analyser/elastic-bulk/parser"
 )
 
 func main() {
