@@ -29,7 +29,8 @@ curl -XPUT -H "Content-Type: application/json; charset=utf-8" localhost:9200/cha
                 },
                 "author" : {
                     "type" : "text",
-                    "index" : "true"
+                    "index" : "true",
+                    "fielddata" : "true"
                 },
                 "contents" : {
                     "type" : "text",
