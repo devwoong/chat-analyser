@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import topList from '@/components/topList/topListPage'
-import userList from '@/components/topList/userListPage'
+import userList from '@/components/userList/userListPage'
 Vue.use(Router)
 
 export default new Router({
