@@ -1,5 +1,6 @@
 <template>
-<div style=" padding:2% 1px 1px 10%;">
+<!-- <div style="padding:2% 1px 1px 10%;"> -->
+<div style="padding-left:25%;padding-right:1">
     <div style="width:35%; float:left">
         <b-table hover :fields="colum" :items="resultDatas.buckets"
                 :sort-by.sync="sortBy"
@@ -45,15 +46,23 @@
                 </template>
             
             </b-table>
+            <pie-chart :data="chartData" :options="options"></pie-chart>
         </div>
+            <!-- <div ref="piChart"></div> -->
     </div>
 </div>
 </template>
 
 <script>
 // TODO : 사용자별 키워드 분포 그래프 추가
+// import tuiChart from 'tui-chart'
+import 'tui-chart/dist/tui-chart.css'
+import {pieChart} from '@toast-ui/vue-chart'
 export default {
     name : 'topListPage',
+    components : {
+        'pie-chart' : pieChart
+    },
     data() {
         return {
             resultDatas : {},
@@ -70,12 +79,37 @@ export default {
                 {key:"doc_count", label:"hit", sortable:true}
             ],
             currentSelectIdx : 0,
-            currentPage : 1
+            currentPage : 1,
+            options : {
+                chart: {
+                    title: '키워드별 사용자 분포'
+                },
+                tooltip: {
+                    suffix: '%'
+                },
+                series: {
+                    showLegend: true,
+                    showLabel: true,
+                    labelAlign: 'center'
+                },
+                legend: {
+                    visible: true
+                }
+            },
+            chartData : {
+                categories: ['사용자'],
+                series: []
+            }
         }
     },
     methods : {
         rowClick(obj, idx) {
             this.currentSelectIdx = obj.index;
+            //this.drawChart();
+            this.chartData.series.splice(0,this.chartData.series.length)
+            for(let author of this.resultDatas.buckets[this.currentSelectIdx].author.buckets) {
+                    this.chartData.series.push({name:author.key, data:author.doc_count});
+                }
         }
     },
     created() {
@@ -86,11 +120,20 @@ export default {
                 for(var i = 0; i<this.resultDatas.buckets.length; i++) {
                     this.resultDatas.buckets[i].index = i;
                 }
+
+                for(let author of this.resultDatas.buckets[this.currentSelectIdx].author.buckets) {
+                    this.chartData.series.push({name:author.key, data:author.doc_count});
+                }
+                
             })
     },
     mounted() {
-
-    },
+        this.$nextTick(() => {
+            // this.drawChart();
+            // this.$forceUpdate();
+        })
+        
+    }
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" style="text-align:center;">
     <b-navbar toggleable="md" type="dark" variant="info">
       <b-navbar-brand href="#/">카카오 채팅 분석</b-navbar-brand>
         <b-collapse is-nav id="nav_collapse">

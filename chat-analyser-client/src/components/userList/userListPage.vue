@@ -1,25 +1,30 @@
 <template>
 <div>
-    <div style = "float:left; width:50%">
-        <b-table hover :fields="colum" :items="resultDatas.buckets" style="width:40%"
-                :sort-by.sync="sortBy"
-                :sort-desc.sync="sortDesc"
-                @row-clicked="rowClick"
-                caption-top
-                >
-            <template slot="table-caption">
-                <p style="text-align:center;">사용자순위</p>
-            </template>
-            <template slot="index" slot-scope="data">
-                {{data.index + 1}}
-            </template>
-            <template slot="key" slot-scope="data">
-                {{data.item.key}}
-            </template>
-            <template slot="doc_count" slot-scope="data">
-                {{data.item.doc_count}}
-            </template>
-        </b-table>
+    <div style = "float:left; width:50%" v-cloak>
+        <div style="float:left;">
+            <b-table hover :fields="colum" :items="resultDatas.buckets"
+                    :sort-by.sync="sortBy"
+                    :sort-desc.sync="sortDesc"
+                    @row-clicked="rowClick"
+                    caption-top
+                    >
+                <template slot="table-caption">
+                    <p style="text-align:center;">사용자순위</p>
+                </template>
+                <template slot="index" slot-scope="data">
+                    {{data.index + 1}}
+                </template>
+                <template slot="key" slot-scope="data">
+                    {{data.item.key}}
+                </template>
+                <template slot="doc_count" slot-scope="data">
+                    {{data.item.doc_count}}
+                </template>
+            </b-table>
+        </div>
+        <div v-if="resultDatas.buckets != null" style="float:left;">
+            <pie-chart :data="userChart.chartData" :options="userChart.options"></pie-chart>
+        </div>
     </div>
     <div style = "float:left; width:50%">
         <b-tabs v-if="resultDatas.buckets != null" v-model="tabIndex">
@@ -63,11 +68,13 @@
 //  TODO : 분포도그래프 추가, 가장 많이 사용한 키워드,  
 
 import userKeywordList from '@/components/userList/userKeywordList'
+import {pieChart} from '@toast-ui/vue-chart'
 
 export default {
     name : 'userListPage',
     components : {
-        'user-keywords' : userKeywordList
+        'user-keywords' : userKeywordList,
+        'pie-chart' : pieChart
     },
     data() {
         return {
@@ -81,6 +88,28 @@ export default {
                 {key:"key", label:"사용자", sortable:true},
                 {key:"doc_count", label:"hit", sortable:true}
             ],
+            userChart : {
+                options : {
+                    chart: {
+                        title: '사용자 분포',
+                    },
+                    tooltip: {
+                        suffix: '%'
+                    },
+                    series: {
+                        showLegend: true,
+                        showLabel: true,
+                        labelAlign: 'center'
+                    },
+                    legend: {
+                        visible: true
+                    }
+                },
+                chartData : {
+                    categories: ['사용자'],
+                    series: []
+                }
+            }
         }
     },
     created() {
@@ -88,6 +117,11 @@ export default {
             .then((result) => {
                 console.log(result)
                 this.resultDatas = result.data.aggregations.author
+                for(var i = 0; i<this.resultDatas.buckets.length; i++) {
+                    this.userChart.chartData.series.push({
+                        name : this.resultDatas.buckets[i].key,
+                        data : this.resultDatas.buckets[i].doc_count})
+                }
                 // for(var i = 0; i<this.resultDatas.buckets.length; i++) {
                 //     this.resultDatas.buckets[i].index = i;
                 // }
@@ -98,6 +132,7 @@ export default {
                     for(var i = 0; i<this.userKeywords.buckets.length; i++) {
                         this.userKeywords.buckets[i].index = i;
                     }
+
                 })
             })
         
