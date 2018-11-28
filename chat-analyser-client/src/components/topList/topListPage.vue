@@ -115,7 +115,6 @@ export default {
     created() {
         this.$http.get(`${this.api_url}/top`, {params:{size:10, from:(this.currentPage-1)*10}, headers:{}, timeout:10000})
             .then((result) => {
-                console.log(result)
                 this.resultDatas = result.data.aggregations.keywords
                 for(var i = 0; i<this.resultDatas.buckets.length; i++) {
                     this.resultDatas.buckets[i].index = i;

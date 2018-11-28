@@ -60,7 +60,11 @@ func dateFormat(date string) string {
 		times := strings.Replace(t, "오후", "", 1)
 		integer, _ := strconv.Atoi(strings.TrimSpace(strings.Split(times, ":")[0]))
 		integer += 12
-		hour = strconv.Itoa(integer)
+		if integer == 24 {
+			hour = "00"
+		} else {
+			hour = strconv.Itoa(integer)
+		}
 		minute = strings.Split(times, ":")[1]
 	} else if strings.Contains(t, "오전") == true {
 		times := strings.Replace(t, "오전", "", 1)

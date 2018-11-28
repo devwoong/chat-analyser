@@ -43,7 +43,8 @@ export default {
                 {key:"doc_count", label:"hit", sortable:true}
             ],
             currentSelectIdx : 0,
-            currentPage : 1
+            currentPage : 1,
+            resultDatas : []
         }
     },
     methods : {
@@ -52,11 +53,17 @@ export default {
         }
     },
     created() {
+        this.$http.get(`${this.api_url}/user/keywords/${this.author}`)
+            .then((result) => {
+                this.resultDatas = result.data.aggregations.keywords
+                for(var i = 0; i<this.resultDatas.buckets.length; i++) {
+                    this.resultDatas.buckets[i].index = i;
+                }
+            })
     },
     mounted() {
 
     },
-    props : [
-        'resultDatas']
+    props : ['author']
 }
 </script>
