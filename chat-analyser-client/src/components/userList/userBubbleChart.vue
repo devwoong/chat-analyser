@@ -68,7 +68,7 @@ export default {
 svg {
     width: 100%;
 } */
-.tui-chart-series-custom-event-area {
+/* .tui-chart-series-custom-event-area {
     width: 100% !important;
-}
+} */
 </style>

@@ -6,7 +6,7 @@
           <b-navbar-nav>
             <b-nav-item href="#/" @click="changeTitle('키워드')">키워드</b-nav-item>
             <b-nav-item href="#/user" @click="changeTitle('사용자')">사용자</b-nav-item>
-            <b-nav-item href="#" @click="changeTitle('날짜별')">날짜별</b-nav-item>
+            <b-nav-item href="#/date" @click="changeTitle('날짜별')">날짜별</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
         <b-navbar-brand href="#" right>{{title}}</b-navbar-brand>

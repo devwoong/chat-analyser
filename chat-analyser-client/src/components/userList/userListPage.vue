@@ -1,7 +1,7 @@
 <template>
 <div>
-    <div style = "float:left; width:50%" v-cloak>
-            <div style="float:left;">
+    <div style = "float:left; width:50%; border-right:1px solid black" v-cloak>
+            <div style="float:left; padding-left : 20px; width:40%">
                 <b-table hover :fields="colum" :items="resultDatas.buckets"
                         :sort-by.sync="sortBy"
                         :sort-desc.sync="sortDesc"
@@ -27,7 +27,7 @@
             </div>
             <user-bubble-chart style="width:100%"></user-bubble-chart>
     </div>
-    <div style = "float:left; width:50%">
+    <div style = "float:left; width:50%;">
         <b-tabs v-if="resultDatas.buckets != null" v-model="tabIndex">
             <b-tab :title="data.key + '(' + data.doc_count + ')'" v-for="(data, idx) in resultDatas.buckets" :key="idx">   
                 <user-keywords :author="data.key"></user-keywords>

@@ -24,7 +24,7 @@
             </template>
         
         </b-table>
-        <b-pagination-nav base-url="#" :number-of-pages="10" v-model="currentPage" align="center"/>
+        <b-pagination-nav base-url="#/#" :number-of-pages="10" v-model="currentPage" align="center"/>
         <p>
         Sorting By: <b>{{ sortBy }}</b>,
         Sort Direction: <b>{{ sortDesc ? 'Descending' : 'Ascending' }}</b>
